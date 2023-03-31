@@ -18,7 +18,7 @@ do
   # bmc version, BIOS version
   bmc-info -h $i -u $uname -p $pswd > $sn/bmc-info.out
   #sensors
-  ipmi-sensors -h $i -u $uname -p $pswd $sn/ipmi-sensors.out
+  ipmi-sensors -h $i -u $uname -p $pswd > $sn/ipmi-sensors.out
   #SEL
   ipmi-sel -D LAN -h $i -u $uname -p $pswd --output-event-state > $sn/ipmi-sel.out
 done
