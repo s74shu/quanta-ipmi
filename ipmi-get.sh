@@ -1,4 +1,4 @@
-#tool for collecting ipmi info from Quantaplex T41S
+#tool for collecting ipmi info from Quantaplex / Hitachi DS 
 bmc_ip=("192.168.10.1" "192.168.10.2")
 uname="root"
 pswd="*****"
@@ -8,11 +8,12 @@ do
   #echo $i
   # chassis SN, node SN(FRU Product Serial Number:_), node(product) model name, node(product) model pn
   mkdir $i
-  ipmi-fru -e 0 -h $i -u $uname -p $pswd > $i/ipmi-fru.out
+  ipmi-fru -e 0 -h $i -u $uname -p $pswd > $i/ipmi-fru.out # for bullion S  -W skipchecks
   
   sn=$(cat $i/ipmi-fru.out|grep 'FRU Product Serial Number'|cut -d ' ' -f 7)
+  model=$(cat ipmi-fru.out|grep 'FRU Product Name'|cut -d ':' -f 2|rev|cut -f 1 -d ' '|rev)
+  sn=$model-$sn
   
-  sn=T41S-$sn
   mv $i $sn
   
   # bmc version, BIOS version
